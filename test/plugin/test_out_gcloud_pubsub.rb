@@ -62,6 +62,17 @@ class GcloudPubSubOutputTest < Test::Unit::TestCase
 
       assert_equal(true, d.instance.autocreate_topic)
     end
+
+    test '"dest_project" can be specified' do
+      d = create_driver(%[
+        project project-test
+        topic topic-test
+        key key-test
+        dest_project dest-project-test
+      ])
+
+      assert_equal("dest-project-test", d.instance.dest_project)
+    end
   end
 
   sub_test_case 'topic' do
@@ -82,6 +93,21 @@ class GcloudPubSubOutputTest < Test::Unit::TestCase
       @publisher.publish.once
       @pubsub_mock.topic("topic-test").once { nil }
       @pubsub_mock.create_topic("topic-test").once { @publisher }
+      d.run(default_tag: "test") do
+        d.feed(@time, {"a" => "b"})
+      end
+    end
+
+    test '"dest_project" is set' do
+      d = create_driver(%[
+        project project-test
+        topic topic-test
+        key key-test
+        dest_project dest-project-test
+      ])
+
+      @publisher.publish.once
+      @pubsub_mock.topic("topic-test", {:project=>"dest-project-test"}).once { @publisher }
       d.run(default_tag: "test") do
         d.feed(@time, {"a" => "b"})
       end

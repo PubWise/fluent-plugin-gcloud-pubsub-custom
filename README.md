@@ -81,6 +81,8 @@ Use `gcloud_pubsub` output plugin.
 - `topic` (required)
   - Set topic name to publish.
   - You can use placeholder in this param. See: https://docs.fluentd.org/v1.0/articles/buffer-section
+- `dest_project` (optional, default: `nil`)
+  - Set your destination GCP project if you publish messages cross project.
 - `autocreate_topic` (optional, default: `false`)
   - If set to `true`, specified topic will be created when it doesn't exist.
 - `max_messages` (optional, default: `1000`)
@@ -133,8 +135,8 @@ Use `gcloud_pubsub` input plugin.
   - Set your credential file path.
   - Running fluentd on GCP, you can use scope instead of specifying this.
   - You can also use environment variable such as `GCLOUD_KEYFILE`.
-- `topic` (required)
-  - Set topic name to pull.
+- `topic` (optional)
+  - Set topic name that the subscription belongs to.
 - `subscription` (required)
   - Set subscription name to pull.
 - `max_messages` (optional, default: `100`)

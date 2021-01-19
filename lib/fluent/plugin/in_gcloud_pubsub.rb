@@ -26,7 +26,7 @@ module Fluent::Plugin
     desc 'Set your credential file path.'
     config_param :key,                :string,  default: nil
     desc 'Set topic name to pull.'
-    config_param :topic,              :string
+    config_param :topic,              :string,  default: nil
     desc 'Set subscription name to pull.'
     config_param :subscription,       :string
     desc 'Pulling messages by intervals of specified seconds.'

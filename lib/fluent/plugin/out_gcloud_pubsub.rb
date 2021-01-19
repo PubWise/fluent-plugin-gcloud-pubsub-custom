@@ -19,6 +19,8 @@ module Fluent::Plugin
     config_param :key,                :string,  :default => nil
     desc 'Set topic name to publish.'
     config_param :topic,              :string
+    desc "Set your dest GCP project if publishing cross project"
+    config_param :dest_project,       :string,  :default => nil
     desc "If set to `true`, specified topic will be created when it doesn't exist."
     config_param :autocreate_topic,   :bool,    :default => false
     desc 'Publishing messages count per request to Cloud Pub/Sub.'
@@ -47,7 +49,7 @@ module Fluent::Plugin
 
     def start
       super
-      @publisher = Fluent::GcloudPubSub::Publisher.new @project, @key, @autocreate_topic
+      @publisher = Fluent::GcloudPubSub::Publisher.new @project, @key, @autocreate_topic, @dest_project
     end
 
     def format(tag, time, record)
